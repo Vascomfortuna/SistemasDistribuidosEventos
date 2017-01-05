@@ -1,0 +1,300 @@
+<html>
+    <head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    <title>Eventos</title>
+        
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        h3{
+          margin: 2px;  
+        }
+    </style>
+    <script>
+        function Aparecer(table){
+                table.removeAttribute("hidden");
+        }
+        function Esconder(table){
+                table.setAttribute("hidden","");
+        }
+        function VerEventos(){
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                vtable = document.getElementById("vEventos");
+                itable = document.getElementById("iEventos");
+                etable = document.getElementById("eEventos");
+                etable2 = document.getElementById("eEventos2");
+                atable = document.getElementById("aEventos");
+                Aparecer(vtable);
+                Esconder(itable);
+                Esconder(etable);
+                Esconder(etable2);
+                Esconder(atable);
+                //alert(xmlhttp.responseText);
+                vtable.innerHTML=xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("POST", "verEventos.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send();
+        }
+        function InserirEventos(){
+                vtable = document.getElementById("vEventos");
+                itable = document.getElementById("iEventos");
+                etable = document.getElementById("eEventos");
+                etable2 = document.getElementById("eEventos2");
+                atable = document.getElementById("aEventos");
+                Esconder(vtable);
+                Aparecer(itable);
+                Esconder(etable);
+                Esconder(etable2);
+                Esconder(atable);
+        }
+        function EditarEventos(){
+            vtable = document.getElementById("vEventos");
+            itable = document.getElementById("iEventos");
+            etable = document.getElementById("eEventos");
+            etable2 = document.getElementById("eEventos2");
+            atable = document.getElementById("aEventos");
+            Esconder(vtable);
+            Esconder(itable);
+            Aparecer(etable);
+            Esconder(etable2);
+            Esconder(atable);
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    e=document.getElementById("selectEditarEventos");
+                    e.innerHTML=xmlhttp.responseText;
+                    EditarEventosTable(e.options[e.selectedIndex].value);
+                }
+            };
+            xmlhttp.open("POST", "selectEditarEventos.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send();
+
+        }
+        function ApagarEventos(){
+            vtable = document.getElementById("vEventos");
+            itable = document.getElementById("iEventos");
+            etable = document.getElementById("eEventos");
+            etable2 = document.getElementById("eEventos2");
+            atable = document.getElementById("aEventos");
+            Esconder(vtable);
+            Esconder(itable);
+            Esconder(etable);
+            Esconder(etable2);
+            Aparecer(atable);
+             var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    e=document.getElementById("selectApagarEventos");
+                    e.innerHTML=xmlhttp.responseText;
+                }
+            };
+            xmlhttp.open("POST", "selectEditarEventos.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send();
+        }
+        function InserirEventosBD(){
+            titulo = document.getElementById("iTitulo").value;
+            autor = document.getElementById("iAutor").value;
+            data = document.getElementById("iData").value;
+            local = document.getElementById("iLocal").value;
+            str = "titulo="+titulo+"&autor="+autor+"&data="+data+"&local="+local;
+                    var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert(xmlhttp.responseText);
+            }
+        };
+        xmlhttp.open("POST", "inserirEvento.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(""+str);
+        }
+        
+        function EditarEventosTable(){
+            e = document.getElementById("selectEditarEventos");
+            titulo=e.options[e.selectedIndex].value;
+            str = "titulo="+titulo;
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    etable2 = document.getElementById("eEventos2");
+                    response=xmlhttp.responseXML;
+                    
+                    Aparecer(etable2);
+                    document.getElementById("eTitulo").value=response.getElementsByTagName("titulo")[0].childNodes[0].nodeValue;
+                    document.getElementById("eAutor").value=response.getElementsByTagName("autor")[0].childNodes[0].nodeValue;
+                    document.getElementById("eData").value=response.getElementsByTagName("data")[0].childNodes[0].nodeValue;
+                    document.getElementById("eLocal").value=response.getElementsByTagName("local")[0].childNodes[0].nodeValue;
+                }
+            };
+            xmlhttp.open("POST", "verEventosPorId.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(""+str);
+        }
+        function EditarEventosBD(){
+            e = document.getElementById("selectEditarEventos");
+            idevento=e.options[e.selectedIndex].value;
+            titulo = document.getElementById("eTitulo").value;
+            autor = document.getElementById("eAutor").value;
+            data = document.getElementById("eData").value;
+            local = document.getElementById("eLocal").value;
+            str = "idevento="+idevento+"&titulo="+titulo+"&autor="+autor+"&local="+local+"&data="+data;
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    alert(xmlhttp.responseText);
+                    EditarEventos();
+                }
+            };
+            xmlhttp.open("POST", "editarEvento.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(""+str);
+        }
+        function ApagarEventosBD(){
+            v=confirm("Quer apagar o evento selecionado?");
+            if(v==true){
+                e = document.getElementById("selectApagarEventos");
+                idevento=e.options[e.selectedIndex].value;
+                str = "idevento="+idevento;
+                var xmlhttp;
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        ApagarEventos();
+                    }
+                };
+                xmlhttp.open("POST", "apagarEvento.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send(""+str);
+        }
+        }
+    </script>   
+    </head>
+    <body >
+        <div class="container">
+            <h1>Gestor de eventos</h1>
+        </div>
+        <div class="container">
+        <div class="row" >
+            <div class="col-xs-12 col-sm-3" >
+                <h3>
+                    <input style="width: 100%;" type="button" onclick="VerEventos()" value="Ver Eventos" class="btn-toolbar"/>
+                </h3>
+            </div><div class="col-xs-12 col-sm-3">
+                <h3>
+                    <input style="width: 100%;" type="button" onclick="InserirEventos()" value="Inserir Eventos" class="btn-toolbar"/>
+                </h3>
+            </div><div class="col-xs-12 col-sm-3">
+                <h3>
+                    <input style="width: 100%;" type="button" onclick="EditarEventos()" value="Editar Eventos" class="btn-toolbar"/>
+                </h3>
+            </div><div class="col-xs-12 col-sm-3">
+                <h3>
+                    <input style="width: 100%;" type="button" onclick="ApagarEventos()" value="Apagar Eventos" class="btn-toolbar"/>
+                </h3>
+            </div>
+        </div>
+        </div>
+        <div class="container">
+            <table id="vEventos" class="table" hidden>
+            </table>
+            <table id="iEventos" class="table " hidden>
+                <tr><td>Titulo do evento:</td><td><input id="iTitulo" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Nome do autor:</td><td><input id="iAutor" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Data(yyyy-mm-dd):</td><td><input id="iData" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Local:</td><td><input id="iLocal" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td colspan="2"><input onclick="InserirEventosBD()" style="float:right" type="button" value="Inserir Evento" class="btn-toolbar"/></td></tr>
+            </table>
+            
+            <table  id="eEventos" class="table" hidden>
+                <tr><td> <select onchange="EditarEventosTable();" id="selectEditarEventos" class="form-control"></select></td></tr>
+            </table>
+            <table id="eEventos2" class="table " hidden>
+                <tr><td>Titulo do evento:</td><td><input id="eTitulo" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Nome do autor:</td><td><input id="eAutor" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Data(yyyy-mm-dd):</td><td><input id="eData" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td>Local:</td><td><input id="eLocal" type="text" maxlength="255" class="input-sm"/></td></tr>
+                <tr><td colspan="2"><input onclick="EditarEventosBD()" style="float:right" type="button" value="Editar Evento" class="btn-toolbar"/></td></tr>
+            </table>
+            <table id="aEventos" class="table" hidden>
+                <tr><td> <select id="selectApagarEventos" class="form-control"></select></td></tr>
+                <tr><td> <input onclick="ApagarEventosBD()" style="float:right" type="button" value="Apagar Evento" class="btn-toolbar"/></td></tr>
+            </table>
+        </div>
+        
+        
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    </body>
+</html>
