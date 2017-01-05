@@ -5,8 +5,8 @@
     $local = filter_input(INPUT_POST, "local");
     
     try {
-        $connection_string = sprintf('mysql:host=%s;dbname=%s;charset=UTF8', "127.2.33.130:3306", "eventos");
-        $ligacao = new PDO($connection_string, "adminpMx1Hec", "ITcMfE3D78Bj");
+        $connection_string = sprintf('mysql:host=%s;dbname=%s;charset=UTF8', "127.4.148.2:3306", "sdeventos");
+        $ligacao = new PDO($connection_string, "adminLPasqEM", "3Z3-g2155iRm");
         $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $query = "insert into eventos(titulo,autor,data,local) VALUES ('$titulo','$autor','$data','$local');";
         $stmt = $ligacao->prepare($query);
